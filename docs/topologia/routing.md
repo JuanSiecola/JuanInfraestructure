@@ -4,9 +4,9 @@
 
 El enrutamiento es el proceso de dirigir el tráfico entre las diferentes subredes. En esta topología, el enrutamiento cumple tres funciones principales:
 
-1.  **Enrutamiento Inter-VLAN:** Permitir que las VLANs (Datacenter, Dev, Sysadmin) se comuniquen entre sí.
-2.  **Enrutamiento Core:** Interconectar las red VLANs con la red de servicios (Firewall y Management).
-3.  **Enrutamiento a Internet:** Proveer una ruta por defecto (Default Route) y Traducción de Direcciones de Red (NAT) para que los hosts internos accedan a Internet.
+1. **Enrutamiento Inter-VLAN:** Permitir que las VLANs (Datacenter, Dev, Sysadmin) se comuniquen entre sí.
+2. **Enrutamiento Core:** Interconectar las red VLANs con la red de servicios (Firewall y Management).
+3. **Enrutamiento a Internet:** Proveer una ruta por defecto (Default Route) y Traducción de Direcciones de Red (NAT) para que los hosts internos accedan a Internet.
 
 **Dispositivos de Enrutamiento:**
 
@@ -37,10 +37,6 @@ GigabitEthernet0/3.99      172.16.99.1     YES NVRAM  up                    up
 GigabitEthernet0/3.200     172.16.200.1    YES NVRAM  up                    up
 Loopback0                  10.255.255.2    YES NVRAM  up                    up
 ```
-
-
-
-
 
 > **Nota:** La configuración detallada de las sub-interfaces se encuentra en la página de [Configuración de VLANs](vlans.md).
 
@@ -119,7 +115,7 @@ Se necesitan dos gateways:
 2.  **Gateway Interno (HACIA_RED_INTERNA):** Para saber cómo "devolver" el tráfico a la red interna a través del router `JPROO1` (VyOS).
 
 **Configuración de Gateways en JPFW01:**
-![Gateway Pfsense WAN](../assets/gatewaysPfsense.png)
+![Gateway Pfsense WAN](../assets/pfsense/gatewaysPfsense.png)
 
 
 
@@ -132,7 +128,7 @@ Cuando un paquete vuelve de Internet, pfSense lo recibe. Pero, ¿cómo sabe pfSe
 Creamos rutas para cada una de las redes internas (VLANs) que le dicen a pfSense: "Para alcanzar cualquier host en estas redes, envía el tráfico de vuelta a `JPROO1` (VyOS)" usando el gateway `HACIA_RED_INTERNA` que definimos en el paso anterior.
 
 **Rutas Estáticas en JPFW01:**
-![Static Routes Pfsense](../assets/rutas-estaticas-pfsense.png)
+![Static Routes Pfsense](../assets/pfsense/rutas-estaticas-pfsense.png)
 
 
 
@@ -149,7 +145,7 @@ pfSense debe hacer **NAT Saliente** para "esconder" todas tus IPs privadas (172.
 #### Modo Híbrido (Hybrid Mode)
 
 Como se ve en la captura, se seleccionó el modo **"Hybrid Outbound NAT"**.
-![NAT Pfsense 1](../assets/nat1.png)
+![NAT Pfsense 1](../assets/pfsense/nat1.png)
 
 #### Esto permite en PfSense:
 1.  **Reglas Manuales:** Permite crear reglas específicas (como la regla para `10.10.0.0/30` que se ve abajo en la imagen).
@@ -159,4 +155,4 @@ Como se ve en la captura, se seleccionó el modo **"Hybrid Outbound NAT"**.
 #### Reglas Automáticas
 
 La siguiente imagen muestra las reglas que pfSense genera automáticamente. La regla principal (la segunda en la lista) toma todas las redes internas (VLANs, Management, etc.) y las traduce (NAT) a la dirección de la `WAN` cuando salen a Internet.
-![NAT Pfsense 2](../assets/nat2.png)
+![NAT Pfsense 2](../assets/pfsense/nat2.png)

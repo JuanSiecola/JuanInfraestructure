@@ -1,8 +1,9 @@
 # Monitoreo con Grafana y Prometheus
 
-![router-cisco](../assets/routercisco-img.png)
+![router-cisco](../assets/grafana/routercisco-img.png)
 
 ## 1. Resumen de Conectividad
+
 El sistema de observabilidad opera en un modelo híbrido, en el cuál se ejecuta una instancia en Oracle Cloud, mientras que los dispositivos objetivos (Switches/Routers/Firewalls) se encuentran en una red local **(GNS3)**.
 
 La comunicación entre la nube y el sitio local se asegura mediante **Tailscale (VPN)**.
@@ -10,6 +11,7 @@ La comunicación entre la nube y el sitio local se asegura mediante **Tailscale 
 ---
 
 ## 2. Habilitar SNMP en dispositivos de red
+
 Para habilitar el protocolo SNMP es los dispositivos ubicados en GNS3 se necesitan ejecutar ciertos comandos que se detallan debajo:
 
 === "Cisco"
@@ -35,7 +37,7 @@ Para habilitar el protocolo SNMP es los dispositivos ubicados en GNS3 se necesit
 
 En caso de pfSense se puede hacer desde la webUI:
 
-![snmp-pfsense](../assets/snmp-pfsense.png)
+![snmp-pfsense](../assets/pfsense/snmp-pfsense.png)
 
 ---
 
@@ -45,7 +47,7 @@ Para alcanzar los objetivos SNMP que tienen IPs privadas, la VM de Oracle utiliz
 El firewall PfSense es quien comparte las redes, y la vm de Oracle acepta estas rutas para alcanzar estas redes. De esta manera tengo conectividad con los dispositivos de mi topología en GNS3.
 
 
-![subnet-router-pfsense](../assets/tailscale-routing-pfsense.png)
+![subnet-router-pfsense](../assets/pfsense/tailscale-routing-pfsense.png)
 
 ### 3.1 Flujo de Datos SNMP
 
@@ -61,8 +63,7 @@ El firewall PfSense es quien comparte las redes, y la vm de Oracle acepta estas 
 4. **Destino:**  
    El pfSense recibe el tráfico desde Tailscale y lo enruta hacia el dispositivo de red correspondiente dentro de su red LAN, completando la solicitud SNMP.
 
-
-!!! info 
+!!! info
     Gracias a esta arquitectura, **no es necesario abrir el puerto UDP 161** en el firewall.
 
 ---
@@ -71,7 +72,7 @@ El firewall PfSense es quien comparte las redes, y la vm de Oracle acepta estas 
 
 En las reglas de seguridad de la VCN, no es necesario abrir los puertos 3000 (Grafana), 9090 (Prometheus) ni (9116) como reglas de entrada. En cambio, para dejar público el servicio de Grafana en internet, como reglas de entrada se abren los puertos  80 y 443.
 
-![firewall-rules](../assets/oracle-firewall-list.png)
+![firewall-rules](../assets/oracle/oracle-firewall-list.png)
 
 ### 4.1 Acceso a los Servicios
 
@@ -85,10 +86,10 @@ Para acceder al dashboard de grafana se utiliza la URL `https://grafana.js-lab-u
 | **Prometheus** | `http://100.103.72.38:9090` |
 | **SNMP Exporter** | `http://100.103.72.38:9116` |
 
-![snmp-exporter](../assets/snmp_exporter.png)
+![snmp-exporter](../assets/grafana/snmp_exporter.png)
 
-![prometheus-snmp](../assets/prometheus_snmp.png)
+![prometheus-snmp](../assets/grafana/prometheus_snmp.png)
 
-![grafana-snmp](../assets/grafana-screenshot.png)
+![grafana-snmp](../assets/grafana/grafana-screenshot.png)
 
 > *En el apartado de servicios -> grafana está todo más detallada su configuración, o haciendo click en el enlace* [Grafana](../servicios/grafana.md)

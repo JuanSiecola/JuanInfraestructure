@@ -17,7 +17,7 @@ Nos alerta visualmente (y podría enviar notificaciones) si un servicio o dispos
 
 El dashboard principal centraliza el estado de todos los monitores configurados, mostrando un "UP" (verde) o "DOWN" (rojo) para cada servicio.
 
-![KumaDashboard](../assets/kumaDashboard.png)
+![KumaDashboard](../assets/kuma/kumaDashboard.png)
 
 ---
 
@@ -40,7 +40,7 @@ Kuma está configurado para vigilar todos los componentes de la topología usand
 
 ***En esta imagen podemos ver que el certificado SSL para el endpoint https://netbox.js-lab-uy.duckdns.org/ vence en 36 días:***
 
-![KumaSSL](../assets/kumaCert.png)
+![KumaSSL](../assets/kuma/kumaCert.png)
 
 ---
 

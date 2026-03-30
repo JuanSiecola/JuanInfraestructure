@@ -17,16 +17,16 @@ NetBox es la base de datos central que contiene un registro de cada dispositivo,
 NetBox proporciona una vista detallada y relacional de todos los componentes de la infraestructura. Las vistas más importantes son el IPAM (gestión de IPs) y el inventario de dispositivos.
 
 ### 2.1 Dispositivos
-![netboxDispositivos](../assets/netbox-dispositivos.png)
+![netboxDispositivos](../assets/netbox/netbox-dispositivos.png)
 
 ### 2.2 Vlans
-![netboxVlans](../assets/netbox-vlan.png)
+![netboxVlans](../assets/netbox/netbox-vlan.png)
 
 ### 2.3 Prefijos
-![netboxPrefijos](../assets/netbox-prefijos.png)
+![netboxPrefijos](../assets/netbox/netbox-prefijos.png)
 
 ### 2.4 Cableado
-![netboxCableado](../assets/cableado-netbox.png)
+![netboxCableado](../assets/netbox/cableado-netbox.png)
 
 ---
 

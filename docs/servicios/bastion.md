@@ -11,7 +11,8 @@ El servidor bastion (también conocido como "jump server") es un componente de s
 1.  **Aislamiento:** Las interfaces de gestión de los routers y switches (ej. `JPROO2`, `JPSWC01`) solo tienen conectividad por SSH en la VLAN de Sysadmin (`172.16.10.0/24`). 
 
   *Esta es la configuración que se debe de aplicar en los router y switches de la topología, creando una access-list:*
-  ```
+
+  ``` bash
     conf t
     ip access-list standard ADMIN_ONLY
     permit host 172.16.10.10 !Ip del servidor de bastión
@@ -23,7 +24,7 @@ El servidor bastion (también conocido como "jump server") es un componente de s
 2.  **Acceso Remoto Seguro (Tailscale):**
     Se utiliza **Tailscale** (una VPN) para el acceso remoto. El servicio de Tailscale está activo tanto en el firewall **pfSense** (`JPFW01`) como en el **equipo personal** del administrador. Esto crea un túnel seguro sin exponer ningún puerto directamente a Internet.
 
-3.  **Punto de Acceso Único (Port Forwarding):**
+3. **Punto de Acceso Único (Port Forwarding):**
     Para acceder al bastion, se utiliza una regla de **Port Forwarding** (NAT) en el pfSense.
     * El administrador inicia una conexión SSH a la IP de Tailscale del firewall pfSense.
     * Una regla de Port Forwarding en pfSense captura ese tráfico (dirigido al puerto 2222 de la interfaz Tailscale) y lo **redirige** a la IP interna del servidor bastion (`172.16.10.10`).
@@ -31,7 +32,7 @@ El servidor bastion (también conocido como "jump server") es un componente de s
 
 *Aquí se puede ver el flujo de acceso completo, desde el cliente hasta el bastion:*
 
-![Flujo de acceso SSH al bastion](../assets/bastionDemo.gif)
+![Flujo de acceso SSH al bastion](../assets/pfsense/bastionDemo.gif)
 
 ---
 
@@ -39,12 +40,12 @@ El servidor bastion (también conocido como "jump server") es un componente de s
 
 Para entrar a un router por ejemplo, el administrador debe seguir este proceso:
 
-1.  El administrador se conecta por SSH al servidor **Bastion**.
-2.  Una vez *dentro* del bastion, el administrador "salta" (jump) al dispositivo deseado (ej. `ssh JPRO02-admin@172.16.1.2`). Aquí entrariamos al Router cisco encargado del enrutamiento entre vlans. 
+1. El administrador se conecta por SSH al servidor **Bastion**.
+2. Una vez *dentro* del bastion, el administrador "salta" (jump) al dispositivo deseado (ej. `sshJPRO02-admin@172.16.1.2`). Aquí entrariamos al Router cisco encargado del enrutamiento entre vlans.
 
 *Aquí se puede ver el flujo de acceso desde el bastion hasta el router cisco:*
 
-![Flujo de acceso SSH al bastion](../assets/bastionDemo2.gif)
+![Flujo de acceso SSH al bastion](../assets/pfsense/bastionDemo2.gif)
 
 ---
 

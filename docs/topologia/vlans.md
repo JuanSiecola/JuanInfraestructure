@@ -32,16 +32,17 @@ Las VLANs (Redes de Área Local Virtuales) se utilizan para segmentar la red en 
 Estos puertos están asignados a una única VLAN.
 
 * **Interfaz `G0/0` (Datacenter):**
-    * VLAN: 5
-    * Dispositivo: `JDATSR01`
+* VLAN: 5
+* Dispositivo: `JDATSR01`
 * **Interfaz `G1/0` (Dev):**
-    * VLAN: 200
-    * Dispositivo: `JDEVSR01`
+* VLAN: 200
+* Dispositivo: `JDEVSR01`
 * **Interfaz `G2/0` y `G2/1`  (Sysadmin):**
-    * VLAN: 10
-    * Dispositivos: `JJUMSR01`, `JDCSR01`
+* VLAN: 10
+* Dispositivos: `JJUMSR01`, `JDCSR01`
 
-**Configuración del JPSWA01**
+### Configuración del JPSWA01**
+
 ```bash title="Salida de JPSWA01#show vlan brief"
 VLAN Name                             Status    Ports
 ---- -------------------------------- --------- -------------------------------

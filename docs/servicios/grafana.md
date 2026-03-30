@@ -17,9 +17,9 @@ La conexión con los dispositivos locales se realiza a través de un túnel **Ta
 
 ***Capturas de pantalla de los Switches (JPSWA01, JPSWC01) de la topología***
 
-![grafana1](../assets/grafana-switchcore.png)
+![grafana1](../assets/grafana/grafana-switchcore.png)
 
-![grafana2](../assets/grafana-swtichacceso.png)
+![grafana2](../assets/grafana/grafana-swtichacceso.png)
 
 ## Pasos que realicé para la configuración e implementación
 
@@ -43,13 +43,13 @@ sudo tailscale up
 
 Hacemos click en el enlace:
 
-![imagen.png](../assets/imagen0.png)
+![Enlace de autenticación Tailscale](../assets/grafana/tailscale-auth-link.png)
 
 > *Nos pedirá que ingresemos una cuenta personal y una vez seleccionada, nuestra máquina virtual de oracle estará dentro de nuestra tailnet.*
 
 Luego por la consola debemos aceptar las rutas que está compartiendo/advirtiendo el firewall PfSense:
 
-![imagen.png3](../assets/subnet-tailscale-advertise-new.png)
+![imagen.png3](../assets/tailscale/subnet-tailscale-advertise-new.png)
 
 Aceptamos las rutas en la instancia de oracle con el comando:
 
@@ -59,7 +59,7 @@ sudo tailscale set --accept-routes
 
 Posteriormente ya podremos hacerle ping a la interfaz de loopback que tiene nuestro router JPRO02, de nuestra topología local en GNS3:
 
-![imagen.png4](../assets/imagen3.png)
+![Test de ping a JPRO02 desde Oracle](../assets/grafana/oracle-ping-jpro02.png)
 
 Una vez actualizado el sistema e instalado tailscale debemos instalar el paquete **`snmp`**  que contiene la herramienta `snmpwalk`:
 
@@ -132,7 +132,7 @@ Nos movemos a la carpeta generator ahora:
 cd generator
 ```
 
-![imagen.png5](../assets/imagen4.png)
+![Cambio de directorio al generador](../assets/grafana/generator-directory-cd.png)
 
 
 Ahora ya podemos  compilar el generador y procesar los MIBs. Para entender la importancia de esto, pensemos en los **MIBs**  como si fueran el sistema DNS de las redes o un diccionario de traducción.
@@ -149,11 +149,11 @@ Entonces cuando tengamos el compilador en funcionamiento, ya podremos generar nu
 
 En caso de que tire un error como este por ejemplo:
 
-![imagen.png6](../assets/imagen5.png)
+![Error del compilador Go](../assets/grafana/go-build-error.png)
 
 Primero verificamos si tenemos go instalado, en caso que no, lo instalamos:
 
-![imagen.png7](../assets/imagen6.png)
+![Verificación de Go instalado](../assets/grafana/go-version-check.png)
 
 Y para eso lo que hacemos es descargar la versión 1.23.5 utilizando wget, es necesaria esa versión para garantizar la compatibilidad con el código del repositorio:
 
@@ -188,7 +188,7 @@ make generator mibs
 
 El cuál nos generará el binario compilado y listo para usar:
 
-![imagen.png8](../assets/imagen7.png)
+![Binario compilado listo para usar](../assets/grafana/snmp-generator-compiled.png)
 
 Ahora ya podemos crear nuestra configuración SNMP, editando el archivo generator.yml, por las dudas hacemos una copia de ese archivo:
 
@@ -198,13 +198,13 @@ cp generator.yml generator.yml.bkp
 
 Lo editamos con cualquier editor de texto:
 
-![imagen.png9](../assets/imagen8.png)
+![Edición del archivo generator.yml](../assets/grafana/generator-yml-edit.png)
 
 En nuestro caso podemos dejar la autenticación por defecto que ya trae, para este caso configuramos la versión 2 para todos los dispositivos de la red.
 
 Entonces debemos establecer el recorrido y poner las métricas específicas que se quieran obtener, por ejemplo:
 
-![imagen.png10](../assets/modules-snmp-exporter.png)
+![imagen.png10](../assets/grafana/modules-snmp-exporter.png)
 
 ```yaml title="generator.yml"
 ---
@@ -315,7 +315,7 @@ Ahora cerramos y guardamos el archivo, y ya podremos ejecutar el generador:
 
 Esto nos generará un archivo llamado snmp.yml:
 
-![imagen.png11](../assets/imagen10.png)
+![Ejecución del generador SNMP](../assets/grafana/snmp-generator-execute.png)
 
 Bien entonces el siguiente paso es levantar el contenedor y la configuración, para eso volvemos al directorio: 
 
@@ -454,23 +454,23 @@ Una vez guardado ahora ya podemos levantar el contenedor utilizando docker-compo
 docker-compose up -d 
 ```
 
-![imagen.png13](../assets/imagen12.png)
+![Docker-compose levantando Prometheus](../assets/grafana/prometheus-docker-up.png)
 
 Ahora se encuentra en ejecución, y podemos ingresar a la interfaz gráfica utilizando la ip que nos proporciona tailscale e indicamos el puerto 9090 que está escuchando nuestro contenedor de prometheus `http://100.103.72.38:9090/`: 
 
-![imagen.png14](../assets/imagen13.png)
+![Interfaz de Prometheus activa](../assets/grafana/prometheus-ui-interface.png)
 
 Posteriormente ahora también ya podemos levantar el contenedor snmp_exporter que creamos en pasos anteriores:
 
-![imagen.png15](../assets/imagen14.png)
+![Docker-compose levantando SNMP Exporter](../assets/grafana/snmp-exporter-docker-up.png)
 
 También podemos ingresar a la página con la ip de tailscale y el puerto 9116 `http://100.103.72.38:9090/`
 
-![imagen.png17](../assets/snmp_exporter.png)
+![SNMP Exporter ejecutándose correctamente](../assets/grafana/snmp-exporter-running.png)
 
 Ahora en este paso incluso ya podemos probar si estamos obteniendo las métricas, entonces en target ponemos la ip de nuestro dispositivo por ejemplo 10.255.255.2 (JPRO02), en auth dejamos el public_v2 que quedó definido desde un principio y en módulo escribimos cisco_device:
 
-![imagen.png17](../assets/cisco-device-snmp.png)
+![imagen.png17](../assets/grafana/cisco-device-snmp.png)
 
 Entonces cuando le damos a Submit, nos devuelve un bloque de los datos que está obteniendo, esto es un pequeño fragmento de las métricas que estamos obteniendo de nuestro router.
 
@@ -508,53 +508,53 @@ networks:
 
 Listo, ahora si podremos levantar nuestro contenedor con la herramienta `docker-compose up`:
 
-![imagen.png18](../assets/imagen17.png)
+![Página de inicio de sesión de Grafana](../assets/grafana/grafana-login-page.png)
 
 Ingresando con la ip de tailscale y el puerto 3000 que está escuchando el contenedor de grafana, podremos acceder al dashboard desde un navegador:
 
-![imagen.png19](../assets/imagen18.png)
+![Dashboard inicial de Grafana](../assets/grafana/grafana-dashboard-initial.png)
 
 Ahora es el momento de crear los paneles con graficas, gauge y stats, de nuesotro firewall PfSense en este caso, para eso primero debemos linkear Prometheus como fuente de datos, osea conectar Prometheus como fuente de datos en Grafana.
 
 Hacemos click en data sources:
 
-![imagen.png20](../assets/imagen19.png)
+![Menú de Data Sources en Grafana](../assets/grafana/grafana-datasources-menu.png)
 
 Ahora clickeamos el botón azul que dice Add data source:
 
-![imagen.png21](../assets/imagen20.png)
+![Botón para agregar Data Source](../assets/grafana/grafana-add-datasource-button.png)
 
 Elegimos Prometheus:
 
-![imagen.png22](../assets/imagen21.png)
+![Seleccionar Prometheus como fuente](../assets/grafana/grafana-choose-prometheus.png)
 
 y en la ventana que se nos abre, en el campo connection debemos poner el nombre del contenedor de prometheus que definimos en su archivo docker-compose.yml, y también indicamos el puerto, en este caso 9090:
 
-![imagen.png23](../assets/grafana-prometheus.png)
+![imagen.png23](../assets/grafana/grafana-prometheus.png)
 
 y si hacemos click en el botón save & test:
 
-![imagen.png24](../assets/imagen23.png)
+![Prueba exitosa de conexión a Prometheus](../assets/grafana/grafana-prometheus-test-success.png)
 
 Como podemos ver ya quedó establecido prometheus como fuente de datos, ahora solo queda constuir el panel para el firewall pfsense.
 
 Ahora hacemos click en Dashboards y le damos en new:
 
-![imagen.png25](../assets/imagen24.png)
+![Crear nuevo dashboard en Grafana](../assets/grafana/grafana-new-dashboard.png)
 
 le damos click en new visualization:
 
-![imagen.png26](../assets/imagen25.png)
+![Crear nueva visualización](../assets/grafana/grafana-new-visualization.png)
 
 aquí seleccionamos prometheus como la fuente de datos:
 
-![imagen.png27](../assets/imagen26.png)
+![Seleccionar Prometheus como fuente de datos](../assets/grafana/grafana-select-prometheus-source.png)
 
 bien, ahora ya podemos comenzar a crear un panel, comenzaremos con el nombre del dispositivo, en este ejemplo lo haremos para el router cisco JPRO02 de la topología:
 
 ### Stat - Nombre del Dispositivo Panel
 
-![JPRO02-name](../assets/JPRO02-name.png)
+![JPRO02-name](../assets/grafana/JPRO02-name.png)
 
 Tipo de Visualización
 
@@ -582,7 +582,7 @@ Options -> Legend
 
 Luego para el tiempo de encendido el panel es el siguiente:
 
-![JPRO02-uptime](../assets/JPRO02-uptime.png)
+![JPRO02-uptime](../assets/grafana/JPRO02-uptime.png)
 
 Tipo de Visualización
 
@@ -609,7 +609,7 @@ Standard options -> unit -> milliseconds (ms)
 
 Ahora crearemos un panel que nos muestra el pico de salida (subida), máximo del router que tuvo en el promedio de 2 minutos
 
-![JPRO02-max](../assets/JPRO02-max.png)
+![JPRO02-max](../assets/grafana/JPRO02-max.png)
 
 Tipo de Visualización
 
@@ -639,7 +639,7 @@ Standard options -> unit -> bytes (SI)
 
 Ahora crearemos el panel para ver el uso de la CPU del router
 
-![JPRO02-cpu](../assets/JPRO02-cpu.png)
+![JPRO02-cpu](../assets/grafana/JPRO02-cpu.png)
 
 Tipo de Visualización
 
@@ -678,7 +678,7 @@ Esta configuración permite identificar rápidamente estados de carga elevada de
 
 Posteriormente agregaremos un panel para ver el uso de memoria ram del dispositivo
 
-![Memory-Usage](../assets/JPRO02-ram.png)
+![Memory-Usage](../assets/grafana/JPRO02-ram.png)
 
 Tipo de Visualización
 
@@ -729,7 +729,7 @@ Estos umbrales ayudan a detectar de forma temprana posibles problemas de saturac
 
 El siguiente paso es crear gráficos de línea para monitorear el tráfico de red en tiempo real.
 
-![Traffic-Graph](../assets/JPRO02-totalTraffic.png)
+![Traffic-Graph](../assets/grafana/JPRO02-totalTraffic.png)
 
 Tipo de Visualización
 
@@ -762,7 +762,7 @@ Standard options
 Unit -> bytes (SI)
 
 **Overrides**
-![Traffic-Graph-Overrides](../assets/overrides-total.png)
+![Traffic-Graph-Overrides](../assets/grafana/overrides-total.png)
 
 En el apartado de overrides, seleccionamos Fields with Name y escribimos Total Out, luego en Graph styles -> Transform, seleccionamos Negative Y, y obtenemos el panel adjuntado arriba.
 
@@ -770,7 +770,7 @@ En el apartado de overrides, seleccionamos Fields with Name y escribimos Total O
 
 Por ultimo, crearemos el dashboard que contiene el total de tráfico pero de cada interfaz del router JPRO02, tanto entrada como salida, para obtener algo mas detallado.
 
-![Interfaces-Traffic](../assets/JPRO02-fixedTraffic.png)
+![Interfaces-Traffic](../assets/grafana/JPRO02-fixedTraffic.png)
 
 Tipo de Visualización
 
@@ -805,7 +805,7 @@ Unit -> bytes (SI)
 
 **Overrides**
 
-![Interfaces-Traffic-Overrides](../assets/JPRO02-overrides-snmp.png)
+![Interfaces-Traffic-Overrides](../assets/grafana/JPRO02-overrides-snmp.png)
 
 En el apartado de overrides, seleccionamos Fields with Name y escribimos /.Out*/, luego en Graph styles -> Transform, seleccionamos Negative Y, y obtenemos el panel adjuntado arriba.
 
