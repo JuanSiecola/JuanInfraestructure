@@ -2,7 +2,7 @@
 
 ¡Hola! Este sitio es mi **documentación técnica y laboratorio híbrido**. Aquí documento configuraciones, diagramas y prácticas reales de los conocimientos que voy adquiriendo a lo largo de mi formación para poder aplicarlos y probarlos en distintos escenarios.
 
-El laboratorio fue desarrollado en **GNS3**, utilizando dispositivos de red como routers (Cisco y VyOS), switches (Cisco), firewall (PfSense) y servidores Debian 12. Además se implementaron instancias de proveedores de Cloud como Amazon Web Services y Oracle Cloud Infraestructure, las cuales tienen conectividad mediante Tailscale (VPN de Cero configuración) con mi topología local, con el propósito de diseñar una arquitectura de red híbrida y desplegar servicios en ambos entornos.
+El laboratorio fue desarrollado en **GNS3**, utilizando dispositivos de red como routers (Cisco y VyOS), switches (Cisco), firewall (PfSense) y servidores Debian 12. Además se implementaron instancias de proveedores de Cloud como Amazon Web Services y Oracle Cloud Infrastructure, las cuales tienen conectividad mediante Tailscale (VPN de Cero configuración) con mi topología local, con el propósito de diseñar una arquitectura de red híbrida y desplegar servicios en ambos entornos.
 
 ---
 
