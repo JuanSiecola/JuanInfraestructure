@@ -1,27 +1,24 @@
-/* 1. Ensanchar la grilla principal para que use más pantalla */
-.md-grid {
-    max-width: 80%; /* Un 90% es ideal para pantallas anchas sin quedar pegado al borde */
+
+.md-typeset img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1rem auto;
+    border-radius: 0.5rem;
 }
 
-/* 2. Darle más espacio al contenido central (el texto) */
-.md-content {
-    max-width: 65rem; /* Aumentamos de 45rem a 65rem para que el texto respire */
+.md-typeset figure {
+    margin: 1.5rem 0;
+    text-align: center;
 }
 
-/* 3. Hacer que las cajas de código sean un poco más anchas */
-.md-typeset pre > code {
-    padding: 1em;
+.md-typeset figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--md-default-fg-color--light);
+    font-style: italic;
 }
 
-/* Hacer que los bloques de código y las tablas se sientan más amplios */
-.md-typeset div.arithmatex, 
-.md-typeset div.cell, 
-.md-typeset div.codehilite, 
-.md-typeset div.highlight {
-    margin-inline: 0; /* Elimina márgenes extra si los hay */
-}
-
-.md-typeset .admonition,
-.md-typeset details {
-  font-size: medium;
+.md-typeset img {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
