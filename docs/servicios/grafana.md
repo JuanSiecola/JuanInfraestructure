@@ -173,7 +173,7 @@ networks:
     external: true
 ```
 
-### 5. Conceptos Clave:
+## 5. Conceptos Clave:
 * **SNMP Exporter:** Componente que traduce las consultas SNMP a métricas que Prometheus puede recolectar, permitiendo monitorear dispositivos de red que solo exponen métricas a través de SNMP.
 * **OID (Object Identifier):** Identificadores únicos utilizados en SNMP para referirse a métricas específicas de dispositivos de red.
 * **MIBs (Management Information Base):** Estructuras de datos que describen las métricas disponibles en un dispositivo SNMP, organizadas jerárquicamente bajo OIDs.
