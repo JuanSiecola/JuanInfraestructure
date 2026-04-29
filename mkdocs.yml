@@ -46,8 +46,8 @@ theme:
 markdown_extensions:
   - attr_list
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -63,14 +63,12 @@ markdown_extensions:
 plugins:
   - search
   - glightbox:
-      options:
-        touchNavigation: true
-        loop: false
-        zoomable: true
-        draggable: false
-        shadow: true
-        autoplayVideos: false
-
+      touchNavigation: true
+      loop: false
+      zoomable: true
+      draggable: false
+      shadow: true
+      
 extra_javascript:
   - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js
   - javascripts/tablesort.js
@@ -86,4 +84,4 @@ extra:
     - icon: fontawesome/solid/envelope
       link: mailto:juanesiecola@gmail.com
 
-copyright: Copyright &copy; 2025 - 2026 Juan Siécola
+copyright: Copyright &copy; 2026 Juan Siécola
